@@ -3,8 +3,8 @@ const $=id=>document.getElementById(id);
 const tracks={ot:{labels:['NORMAL','NO GIGS 1','NO GIGS 2','OVERTIME'],colors:['#22d3be','#f6ef42','#f6ef42','#fa465c'],desc:['STANDARD PLAY','EMPTY FIXERS · TURN 1/2','EMPTY FIXERS · TURN 2/2','7+ GIGS = INSTANT WIN']},re:{labels:['OFF','TURN 0','TURN 1','TURN 2','TURN 3'],colors:['#45c9ef','#45c9ef','#45c9ef','#45c9ef','#fa465c'],desc:['ROUND IN PROGRESS','FINISH CURRENT TURN','3 TURNS REMAINING','2 TURNS REMAINING','FINAL TURN']}};
 const initial=()=>({ot:0,re:0,p1:0,p2:0});
 const valid=s=>s&&Object.keys(initial()).every(k=>Number.isInteger(s[k])&&s[k]>=0&&s[k]<=(k==='ot'?3:k==='re'?4:2))&&!(s.p1===2&&s.p2===2);
-let state=initial(),history=[],prefs={tabletop:false};
-try{const old=JSON.parse(localStorage.getItem('nc-tracker-v1'));const data=JSON.parse(localStorage.getItem('nc-tracker-v2'));if(data?.state&&valid({...initial(),...data.state})){state={...initial(),...data.state};history=Array.isArray(data.history)?data.history.map(s=>({...initial(),...s})).filter(valid).slice(-50):[]}else if(old&&valid({...initial(),ot:old.ot,re:old.re}))state={...initial(),ot:old.ot,re:old.re};if(data?.prefs){for(const k of ['tabletop'])if(typeof data.prefs[k]==='boolean')prefs[k]=data.prefs[k]}}catch{}
+let state=initial(),history=[],prefs={theme:'night',tabletop:false};
+try{const old=JSON.parse(localStorage.getItem('nc-tracker-v1'));const data=JSON.parse(localStorage.getItem('nc-tracker-v2'));if(data?.state&&valid({...initial(),...data.state})){state={...initial(),...data.state};history=Array.isArray(data.history)?data.history.map(s=>({...initial(),...s})).filter(valid).slice(-50):[]}else if(old&&valid({...initial(),ot:old.ot,re:old.re}))state={...initial(),ot:old.ot,re:old.re};if(data?.prefs){for(const k of ['tabletop'])if(typeof data.prefs[k]==='boolean')prefs[k]=data.prefs[k];if(['night','arasaka','militech','samurai'].includes(data.prefs.theme))prefs.theme=data.prefs.theme}}catch{}
 function save(){try{localStorage.setItem('nc-tracker-v2',JSON.stringify({state,history,prefs}))}catch{}}
 function buzz(){if(typeof navigator.vibrate==='function'){try{navigator.vibrate(35)}catch{}}}
 function change(next){if(!valid(next)||JSON.stringify(next)===JSON.stringify(state))return;history.push({...state});history=history.slice(-50);state=next;save();render();buzz()}
@@ -32,8 +32,9 @@ async function wake(){
 document.addEventListener('visibilitychange',wake);
 window.addEventListener('focus',wake);
 document.addEventListener('pointerup',wake);
-function settings(){document.body.classList.toggle('tabletop',prefs.tabletop);$('tabletop').checked=prefs.tabletop;save()}
+function settings(){document.body.dataset.theme=prefs.theme;$('theme').value=prefs.theme;document.body.classList.toggle('tabletop',prefs.tabletop);$('tabletop').checked=prefs.tabletop;save()}
 $('tabletop').onchange=()=>{prefs.tabletop=$('tabletop').checked;settings()};
+$('theme').onchange=()=>{prefs.theme=$('theme').value;settings()};
 let install;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();install=e;$('install').style.display='block'});$('install').onclick=async()=>{if(install){await install.prompt();install=null;$('install').style.display='none'}};window.addEventListener('appinstalled',()=>{$('install').style.display='none'});
 if('serviceWorker'in navigator&&location.protocol!=='file:'){let controlled=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(controlled){$('update').hidden=false}else controlled=true});$('update').onclick=()=>{save();location.reload()};navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>{const check=()=>reg.update().catch(()=>{});check();window.addEventListener('online',check);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')check()});setInterval(check,300000)}).catch(console.warn)}
 render();settings();wake();
