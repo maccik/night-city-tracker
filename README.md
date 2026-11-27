@@ -6,6 +6,8 @@ A lightweight, mobile-friendly Progressive Web App (PWA) designed to simplify ma
 
 Built by a player, for the community.
 
+### [⚡ Launch Night City Match Tracker](https://maccik.github.io/night-city-tracker/)
+
 ## Overview
 
 Keeping track of consecutive turns with empty Fixer areas, Overtime, and additional turns after the round timer expires can lead to confusion between players.
@@ -94,3 +96,8 @@ No frameworks. No dependencies. No unnecessary complexity.
 
 This project is licensed under the MIT License.
 See the [LICENSE](LICENSE) file for details.
+
+[![Launch App](https://img.shields.io/badge/Launch-App-blue)](https://maccik.github.io/night-city-tracker/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![PWA](https://img.shields.io/badge/PWA-Ready-purple)
+![Free](https://img.shields.io/badge/Free-to%20use-brightgreen)
