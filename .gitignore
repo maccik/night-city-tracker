@@ -1,0 +1,78 @@
+# ==========================================
+# NIGHT CITY MATCH TRACKER
+# ==========================================
+
+# Operating system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs and editors
+.idea/
+.vscode/
+.vs/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Cache
+.cache/
+.parcel-cache/
+.vite/
+.eslintcache
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Testing and coverage
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Python local development
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local configuration
+*.local
+
+# Archives
+*.zip
+*.tar.gz
+
+# AI assistant local configuration
+.claude/settings.local.json
