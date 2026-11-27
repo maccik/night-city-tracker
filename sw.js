@@ -1,4 +1,4 @@
-const CACHE='nc-tracker-v1.1.0-fix1';
+const CACHE='nc-tracker-v1.2.0';
 const ASSETS=['./','./index.html','./app.js','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>e.waitUntil((async()=>{const c=await caches.open(CACHE);await c.addAll(ASSETS.map(a=>new Request(a,{cache:'reload'})));await self.skipWaiting()})()));
 self.addEventListener('activate',e=>e.waitUntil((async()=>{await Promise.all((await caches.keys()).filter(k=>k.startsWith('nc-tracker-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()})()));
